@@ -40,6 +40,6 @@ root                    (project root folder)
 
 ## Authors
 ---
-* # TODO: Chase Duggan - dug21002@byui.edu
-* #       Tyson Freeze - fre21024@byui.edu
-* #       Alex O'Keeffe - oke20002@byui.edu
+* Chase Duggan - dug21002@byui.edu
+* Tyson Freeze - fre21024@byui.edu
+* Alex O'Keeffe - oke20002@byui.edu
