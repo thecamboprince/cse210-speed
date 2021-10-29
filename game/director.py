@@ -20,7 +20,7 @@ class Director:
         output_service (OutputService): The output mechanism.
         score (Score): The current score.
         buffer (Buffer): buffer the words typed in
-        word (Word): gets words
+        words ([Word]): an array of Word objects
     """
 
     def __init__(self, input_service, output_service):
@@ -28,6 +28,8 @@ class Director:
         
         Args:
             self (Director): an instance of Director.
+            input_service (InputService): an instance of InputService.
+            output_service (output_service): an instance of output_service.
         """
         self._input_service = input_service
         self._keep_playing = True
@@ -35,7 +37,7 @@ class Director:
         self._score = Score()
         self._buffer = Buffer()
         self._words = []
-        for _ in range(0, 5):#random.randint(1, 10)):
+        for _ in range(0, random.randint(1, 10)):
             self._add_word()
         
     def start_game(self):
@@ -72,8 +74,7 @@ class Director:
         
     def _do_outputs(self):
         """Outputs the important game information for each round of play. In 
-        this case, that means checking if there are stones left and declaring 
-        the winner.
+        this case, that means printing out the HUD and Actors to the screen.
 
         Args:
             self (Director): An instance of Director.
@@ -86,4 +87,9 @@ class Director:
         self._output_service.flush_buffer()
 
     def _add_word(self):
+        """Adds a word to the _words array.
+
+        Args:
+            self (Director): An instance of Director.
+        """
         self._words.append(Word())

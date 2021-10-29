@@ -23,7 +23,7 @@ class Buffer(Actor):
         self.set_text(f"Buffer: {self._entry}")
     
     def add_letter(self, letter):
-        """Adds the given letter unless it is an '*' which returns the word.
+        """Adds the given letter unless it is an '*' which empties the buffer.
         
         Args:
             self (Buffer): An instance of Buffer.
@@ -33,6 +33,11 @@ class Buffer(Actor):
         self.set_text(f"Buffer: {self._entry}")
 
     def clear_buffer(self):
+        """Empties whatever is currently stored in the buffer.
+        
+        Args:
+            self (Buffer): An instance of Buffer.
+        """
         self._entry = ""
 
     def get_content(self):
