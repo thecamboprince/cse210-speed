@@ -1,6 +1,6 @@
 
-# I'm looking into this class, should be the same or close to the speed game
 class Point:
+    # Chase
     """ To get points from the positions 
 
     Attributes:

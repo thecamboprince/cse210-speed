@@ -7,6 +7,7 @@ from game.word import Word
 from game.point import Point
 
 class Director:
+    # Chase
     """A code template for a person who directs the game. The responsibility of 
     this class of objects is to control the sequence of play.
     
