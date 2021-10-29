@@ -1,8 +1,10 @@
+import random
 from time import sleep
 from game import constants
 from game.score import Score
-from game import buffer
+from game.buffer import Buffer
 from game.word import Word
+from game.point import Point
 
 class Director:
     """A code template for a person who directs the game. The responsibility of 
@@ -30,8 +32,10 @@ class Director:
         self._keep_playing = True
         self._output_service = output_service
         self._score = Score()
-        self._buffer = buffer()
-        self._word = word()
+        self._buffer = Buffer()
+        self._words = []
+        for _ in range(0, 5):#random.randint(1, 10)):
+            self._add_word()
         
     def start_game(self):
         """Starts the game loop to control the sequence of play.
@@ -41,25 +45,29 @@ class Director:
         """
         while self._keep_playing:
             self._get_inputs()
-            self._do_updates()
+            self._update()
             self._do_outputs()
-            self._add_word()
             sleep(constants.FRAME_LENGTH)
 
     def _get_inputs(self):
-        """Gets the inputs at the beginning of each round of play. In this case,
-        that means getting the input of the words.
+        newLetter = self._input_service.get_letter()
+        self._buffer.add_letter(newLetter)
+
+    def _update(self):
+        """Update the position and velocity of the words. Updates the score. Clears the buffers as needed.
 
         Args:
             self (Director): An instance of Director.
         """
-        direction = self._input_service.get_key()
-        if direction == 10:
-            for word in words:
-                if word.text == self._buffer.get_content():
-                    self._score.add_points(points)
-                    word.reset()
-                    
+        for word in self._words:
+            if word.get_text() == self._buffer.get_content():
+                self._score.add_points(word.get_points())
+                word.reset()
+                self._buffer.clear_buffer()
+            else:
+                word.move_next()
+                if not word.get_position().isInsideBox(Point(0,0), constants.MAX_X, constants.MAX_Y):
+                    word.set_velocity(word.get_velocity().reverse())
         
     def _do_outputs(self):
         """Outputs the important game information for each round of play. In 
@@ -70,42 +78,11 @@ class Director:
             self (Director): An instance of Director.
         """
         self._output_service.clear_screen()
+        for word in self._words:
+            self._output_service.draw_actor(word)
         self._output_service.draw_actor(self._score)
+        self._output_service.draw_actor(self._buffer)
         self._output_service.flush_buffer()
-        self._output_service._get_word()
 
-    
-    def _check_for_correct_word(self):
-        """Handles collisions between the snake's head and body. Stops the game 
-        if there is one.
-        Args:
-            self (Director): An instance of Director.
-        """
-        for word in self._get_words():
-            if word.get_word() == self._buffer.get_text():
-                self._score.add_points(30)
-                self._remove_word(word)
-                self._create_new_word()
-                self._buffer.clear_letters()
-        
-
-    def _kill_words(self):
-        """Handles collisions between the snake's head and the food. Grows the 
-        snake, updates the score and moves the food if there is one.
-        Args:
-            self (Director): An instance of Director.
-        """
-        for word in self._get_words():
-            word_position = word.get_position()
-            y = word_position.get_y()
-            if y == constants.MAX_Y - 1:
-                self._remove_word(word)
-                self._score.add_points(-5)
-                self._create_new_word()
-
-    def _create_new_word(self):
-        self._add_word(Word("doubt"))
-        return
-        with open("game/words.txt", "r") as f:
-            word_list = f.readlines()
-        self._add_word(Word(choice(word_list)))
+    def _add_word(self):
+        self._words.append(Word())

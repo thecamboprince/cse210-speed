@@ -1,29 +1,23 @@
 import random
 from game.actor import Actor
 from game.point import Point
+from game import constants
 
-class word:
+class Word(Actor):
     
     def __init__(self):
-        with open('words.txt') as words:
-            words = open('words.txt', 'r')
-            list_of_words = words.readlines()
-            words.close()
         super().__init__()
-        new_word = random.choice(list_of_words)
         self._points = 0
-        self.set_text(new_word)
         self.reset()
     
     def get_points(self):
         return self._points
 
     def reset(self):
-        num_words = random.randint(1, 10)
-        count =0
-        while  count != num_words:
-            self._points = random.randint(1,5)
-            x = random.randint(1, 20 -2)
-            y = random.randint(1, 20, -2)
-            position = Point(x,y)
-            self.set_position(position)
+        self._points = random.randint(1,5)
+        x = random.randint(1, constants.MAX_X)
+        y = random.randint(2, constants.MAX_Y - 1)
+        position = Point(x, y)
+        self.set_position(position)
+        self.set_text(random.choice(constants.LIBRARY))
+        self.set_velocity(Point(random.randint(-2, 2),random.randint(-2, 2)))

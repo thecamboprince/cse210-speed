@@ -79,3 +79,6 @@ class Point:
         x = self._x * -1
         y = self._y * -1
         return Point(x, y)
+
+    def isInsideBox(self, point, width, height):
+        return self._x < point.get_x() + width and self._x > point.get_x() and self._y < point.get_y() + height and self._y > point.get_y()
