@@ -36,7 +36,7 @@ class Director:
         self._score = Score()
         self._buffer = Buffer()
         self._words = []
-        for _ in range(0, random.randint(1, 10)):
+        for _ in range(0, random.randint(5, 10)):
             self._add_word()
         
     def start_game(self):
